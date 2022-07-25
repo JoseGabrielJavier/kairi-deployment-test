@@ -111,14 +111,14 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  config.action_mailer.default_url_options = {host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = {host: "localhost"}
 
   config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-    :user_name => 'postmaster@sandboxa3f1d6fa924c4677831e069561f8c74c.mailgun.org',
-    :password => 'ae2a3c1ed7ba20ad9e8cbb993745f4ed-787e6567-6376db68',
+    :user_name => 'postmaster@sandbox153fc3f36f1c4c8682738f62b713d934.mailgun.org',
+    :password => '0f52e129f1eccd2b86bc9fa58b321009-ef80054a-b2ef7133',
     :address => 'smtp.mailgun.org',
-    :domain => 'sandboxa3f1d6fa924c4677831e069561f8c74c.mailgun.org',
+    :domain => 'sandbox153fc3f36f1c4c8682738f62b713d934.mailgun.org',
     :port => 587,
     :authentication => :plain
   }
