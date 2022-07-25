@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-8">
+        <div class="row">
+            <div class="mt-3 mb-3 text-center">
+                <button id="btnGroupDrop1" onclick="myFunction()" type="button" class="btn btn-primary w-50">
+                More Filter
+                </button>                
+            </div>
+            <div id="myDIV">
+                <%= search_form_for @q, url: search_path  do |f| %>
+                    <%= f.search_field :address_cont, class:"form-control" %>
+                    <div class="row">
+                        <div class="col-6">
+                            <%= text_field_tag :checkin_day, params[:checkin_day], class:"form-control", placeholder:"Check in day", readOnly: "true", required: true %>
+                        </div>
+                        <div class="col-6">
+                            <%= text_field_tag :checkout_day, params[:checkout_day], class:"form-control", placeholder:"Check out day", readOnly: "true", required: true %>  
+                        </div>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-4">
+                            <div>
+                                <%= check_box_tag "q[room_type_eq_any][]", "Entire", class:"form-check-input" %>
+                                <label class="form-check-label mb-5">
+                                    Entire
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <%= check_box_tag "q[room_type_eq_any][]", "Private", class:"form-check-input" %>
+                                <label class="form-check-label mb-5">
+                                    Private
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <%= check_box_tag "q[room_type_eq_any][]", "Share", class:"form-check-input" %>
+                                <label class="form-check-label mb-5">
+                                    Share
+                                </label>
+                            </div>
+                        </div>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Accommodate</p>
+                            <%= f.select :accommodate_gteq, [["1",1], ["2",2], ["3",3],["4+",4]], {include_blank: "Select..."}, {class:"form-select"} %><br>
+                        </div>
+                        <div class="col-4">
+                            <p>Bedroom</p>
+                            <%= f.select :bedroom_gteq, [["1",1], ["2",2], ["3",3],["4+",4]], {include_blank: "Select..."}, {class:"form-select"} %><br>
+                        </div>
+                        <div class="col-4">
+                            <p>Bathroom</p>
+                            <%= f.select :bathroom_gteq, [["1",1], ["2",2], ["3",3],["4+",4]], {include_blank: "Select..."}, {class:"form-select"} %><br>
+                        </div>
+                    </div><hr>
+                    <div class="text-center">
+                        <%= f.submit "Search", class:"btn btn-outline-success w-50" %>
+                    </div>    
+                <% end %>
+            </div>
+            <% @rooms_array.each do |room|%>
+                <div class="col-4 mt-3 mb-3">
+                    <div class="card w-100" style="width: 18rem;">
+                        <%= link_to room_path(room.id) do %>
+                            <% if room.photos.any? %>
+                                <%= image_tag room.photos.first, class:"card-header w-100", style:"height: 200px;" %>
+                            <% else %>  
+                                <%= image_tag "no_image.png", class:"card-header w-100", style:"height: 200px;" %>
+                            <% end %>    
+                        <% end %>
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">
+                                <%= room.listing_name %> 
+                            </h5>
+                            <div class="card-text text-secondary">
+                                <p>$ <%= room.price %></p>
+                                <p><%= room.room_type %></p>
+                                <p><%= room.bedroom %> bedrooms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+    <div class="col-4">
+    </div>
+</div>
+<script>
+    var x = document.getElementById("myDIV");
+    x.style.display = "none";
+    function myFunction() {
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    }
+</script>

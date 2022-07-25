@@ -1,0 +1,107 @@
+<div class="row mt-5">
+    <div class="col-4 text-center">
+        <%= gravatar_for(@user, size: 250) %>
+        <div class="card mx-auto mt-5" style="width: 18rem;">
+            <div class="card-header">
+                Verification
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Email address
+                    <% if @user.email %>
+                        <span>☑</span>
+                    <% else %>
+                        <span class="text-danger">x</span>
+                    <% end %>
+                </li>
+                <li class="list-group-item">Phone number
+                    <% if @user.phone_number %>
+                        <span>☑</span>
+                    <% else %>
+                        <span class="text-danger">x</span>
+                    <% end %>
+                </li>    
+            </ul>
+        </div>
+    </div>
+    <div class="col-8">
+        <h1><%= @user.name %></h1><br>
+        <h2>Listings (<%= @published_rooms.count %>)</h2><hr>
+        <% if @published_rooms.count == 0 %> 
+            <p>No rooms yet.</p><br>
+        <% else %>
+            <div class="row">    
+                <% @rooms.each do |room|%>
+                    <div class="col-4 mt-3 mb-3">
+                        <div class="card w-100" style="width: 18rem;">
+                            <%= link_to room_path(room.id) do %>
+                                <% if room.photos.any? %>
+                                    <%= image_tag room.photos.first, class:"card-header w-100", style:"height: 200px;" %>
+                                <% else %>  
+                                    <%= image_tag "no_image.png", class:"card-header w-100", style:"height: 200px;" %>
+                                <% end %>    
+                            <% end %>
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">
+                                    <%= room.listing_name %> 
+                                </h5>
+                                <div class="card-text text-secondary">
+                                    <p>$ <%= room.price %></p>
+                                    <p><%= room.room_type %></p>
+                                    <p><%= room.bedroom %> bedrooms</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>    
+        <% end %>    
+        <h2 class="mt-5">Reviews From Guests (<%= @review_from_guests.count %>)</h2><hr>
+        <% if @review_from_guests.count == 0 %> 
+            <p>No reviews yet.</p><br>
+        <% else %>
+            <div class="row">    
+                <% @review_from_guests.each do |review_from_guest|%>
+                    <div class="col-6">
+                        <%= gravatar_for(review_from_guest.reservation.user, size: 50) %><br>
+                        <%= review_from_guest.reservation.user.name %>
+                    </div>
+                    <div class="col-6">
+                        <div id="star-<%= review_from_guest.id %>"></div>
+                        <p class="mt-3"><%= review_from_guest.updated_at %></p>
+                        <p>"<%= review_from_guest.comment %>"</p>
+                    </div><hr>
+                    <script>
+                        $('#star-<%= review_from_guest.id %>').raty({
+                            path: "/assets/",
+                            score: <%= review_from_guest.star %>,
+                        });
+                    </script>
+                <% end %>
+            </div>    
+        <% end %> 
+        <h2 class="mt-3">Reviews From Hosts (<%= @review_from_hosts.count %>)</h2><hr>
+        <% if @review_from_hosts.count == 0 %> 
+            <p>No reviews yet.</p><br>
+        <% else %>
+            <div class="row">    
+                <% @review_from_hosts.each do |review_from_host|%>
+                    <div class="col-6 text-center">
+                        <%= gravatar_for(review_from_host.reservation.room.user, size: 50) %><br>
+                        <p class="mt-3"><%= review_from_host.reservation.room.user.name %></p>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div id="star-<%= review_from_host.id %>"></div>
+                        <p class="mt-3"><%= review_from_host.updated_at %></p>
+                        <p>"<%= review_from_host.comment %>"<p>
+                    </div><hr>
+                    <script>
+                        $('#star-<%= review_from_host.id %>').raty({
+                            path: "/assets/",
+                            score: <%= review_from_host.star %>,
+                        });
+                    </script>
+                <% end %>
+            </div>    
+        <% end %>
+    </div>
+</div>

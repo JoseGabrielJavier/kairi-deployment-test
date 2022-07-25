@@ -1,0 +1,46 @@
+<%= provide(:title, "Your Trips")%>
+<div class="row mt-5">
+    <%= render "rooms/yourlist" %>
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Your Trips</h3>
+            </div>
+            <div class="text-body">
+                <% @user.reservations.each do |your_trip| %>
+                    <div class="row mt-3 mb-3 text-center">
+                        <div class="col-3 my-auto">
+                            <p><%= your_trip.checkin_day %> to <%= your_trip.checkout_day %></p>
+                        </div>
+                        <div class="col-3">
+                            <%= image_tag your_trip.room.photos.first, style:"width: 150px; height: 80px;" %>
+                        </div>
+                        <div class="col-3">
+                            <p><%= link_to your_trip.room.listing_name, room_path(your_trip.room.id) %></p>
+                            <span><%= gravatar_for(your_trip.room.user, size: 30) %></span>
+                            <span><%= link_to your_trip.room.user.name, user_path(your_trip.room.user) %></span>
+                        </div>
+                        <div class="col-3 my-auto">
+                            <% if your_trip.guest_to_host %>
+                                <%= link_to "Edit Review", edit_reservation_review_path(reservation_id: your_trip, id: your_trip.guest_to_host), class:"btn btn-warning" %>
+                            <% else %>
+                                <%= link_to "Review Host", new_reservation_review_path(reservation_id: your_trip, review_type: "guest_to_host"), class:"btn btn-primary" %>
+                            <% end %>
+                        </div>
+
+
+                        <!-- Button trigger modal 
+                        <div class="col-3 my-auto">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="eviewmodal-<%= your_trip.id %>">
+                                Review Host
+                            </button>
+                        </div>-->
+
+                        <!-- Modal -->
+                        <%#= render "modal_form", your_reservation: your_trip %>
+                    </div>
+                <% end %>
+            </div>   
+        </div>
+    </div>
+</div>

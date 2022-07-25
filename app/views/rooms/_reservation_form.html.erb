@@ -1,0 +1,87 @@
+<% if @room.user_id != current_user.id %>
+    <%= form_with(model: @reservation, local: true)  do |f| %>
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col-6">
+                    <p>Check In</p>
+                    <%= f.text_field :checkin_day, placeholder: "Check in", class: "form-control", readOnly: "true" %>
+                </div>
+                <div class="col-6">
+                    <p>Check Out</p>
+                    <%= f.text_field :checkout_day, placeholder: "Check out", class: "form-control", readOnly: "true" %>
+                </div>
+            </div><hr>
+            <div id="total_menu">            
+                <div class="col-12">
+                    <span>Price</span>
+                    <span class="float-end"><%= @room.price %></span>
+                </div>
+                <hr>        
+                <div class="col-12">
+                    <span>Night(s)</span>
+                    <span id="nights" class="float-end"></span>
+                </div>
+                <hr>        
+                <div class="col-12">
+                    <span>Total</span>
+                    <span id="total_price" class="float-end"></span>
+                </div>
+            </div>
+            <%= f.hidden_field :total_price %>
+            <%= f.hidden_field :room_id, value: @room.id %>
+            <div class="text-center mt-3">
+                <%= f.submit "Book now", class:"btn btn-outline-warning w-50" %>
+            </div>    
+        </div>
+    <% end %>
+<% end %>
+<script>
+    $("div[id='total_menu']").hide();
+    var checkin_day = document.getElementById("reservation_checkin_day");
+    var checkout_day = document.getElementById("reservation_checkout_day");
+    flatpickr(checkin_day, {
+        minDate: "today",
+        disable: [
+            <% @room.reservations.each do |reservation| %>
+            {
+                from: "<%= reservation.checkin_day %>",
+                to: "<%= reservation.checkout_day %>"
+            },
+            <% end %>
+        ]
+    });
+    checkin_day.addEventListener("change", (e) => {
+        if (checkin_day != ""){
+            checkout_day.disabled = false
+        } 
+        
+        flatpickr(checkout_day, {
+            minDate: e.target.value,
+            disable: [
+            <% @room.reservations.each do |reservation| %>
+            {
+                from: "<%= reservation.checkin_day %>",
+                to: "<%= reservation.checkout_day %>"
+            },
+            <% end %>
+            ]
+        });
+    });
+    checkout_day.addEventListener("change", (e) => {
+        $("div[id='total_menu']").show();
+        
+        var goin_day = new Date(checkin_day.value);
+        var goout_day = new Date(checkout_day.value);
+        console.log(goin_day);
+        console.log(goout_day);
+        var price = <%= @room.price %>;
+        console.log(price);
+        var nights = (goout_day - goin_day)/1000/60/60/24 + 1;
+        console.log(nights);
+        var total_price = price * nights;
+        console.log(total_price);
+        $("#nights").html(nights);
+        $("#total_price").html("$" + total_price);
+        $("#reservation_total_price").val(total_price);
+    });
+</script>

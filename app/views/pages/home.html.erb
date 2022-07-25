@@ -1,0 +1,69 @@
+<%= provide(:title, "Home")%>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card scss_image mt-3 position-relative">
+                <div class="card-img-overlay position-absolute top-50 start-50 translate-middle">
+                    <i><h5 class="text-center text-primary">You can find a room which becomes your favorite.</h5></i>
+                    <div class="text-center w-75 mx-auto">
+                        <%= search_form_for @q, url: search_path  do |f| %>
+                            <%= f.search_field :address_cont, class:"form-control", placeholder:"Type a place where you are going", required: true %><br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <%= text_field_tag :checkin_day, params[:checkin_day], class:"form-control", placeholder:"Check in day", readOnly: "true", required: true %>
+                                </div>
+                                <div class="col-6">
+                                    <%= text_field_tag :checkout_day, params[:checkout_day], class:"form-control", placeholder:"Check out day", readOnly: "true", required: true %>  
+                                </div>
+                            </div><br>
+                            <%= f.submit "Search", class:"btn btn-outline-success w-50" %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <h1 class="mt-5">Homes</h1><hr>
+    <div class="row">
+        <% @rooms.each do |room|%>
+            <div class="col-4 mt-3 mb-3">
+                <div class="card w-100" style="width: 18rem;">
+                    <%= link_to room_path(room.id) do %>
+                        <% if room.photos.any? %>
+                            <%= image_tag room.photos.first, class:"card-header w-100", style:"height: 350px;" %>
+                        <% else %>  
+                            <%= image_tag "no_image.png", class:"card-header w-100", style:"height: 350px;" %>
+                        <% end %>    
+                    <% end %>
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <%= room.listing_name %> 
+                        </h5>
+                        <div class="card-text text-secondary">
+                            <p>$ <%= room.price %></p>
+                            <p><%= room.room_type %></p>
+                            <p><%= room.bedroom %> bedrooms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>          
+    </div>    
+    <h1 class="mt-5">Cities</h1><hr>
+</div>
+<script>
+    var checkin_day = document.getElementById("checkin_day");
+    var checkout_day = document.getElementById("checkout_day");
+    flatpickr(checkin_day, {
+        minDate: "today",
+    });
+    checkin_day.addEventListener("change", (e) => {
+        if (checkin_day != ""){
+            checkout_day.disabled = false
+        } 
+        
+        flatpickr(checkout_day, {
+            minDate: e.target.value,
+        });
+    });
+</script>    

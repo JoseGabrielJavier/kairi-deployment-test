@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-body">
+        <h3><%= link_to "Listing", listing_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger"><%= "✔️" if check_listing? %></span></h3>
+        <h3><%= link_to "Price", price_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger"><%= "✔️" if check_price? %></span></h3>
+        <h3><%= link_to "Description", description_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger"><%= "✔️" if check_description? %></span></h3>
+        <h3><%= link_to "Photoes", photoes_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger"><%= "✔️" if check_photo? %></span></h3>
+        <h3><%= link_to "Amenities", amenities_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger">✔️</span></h3>
+        <h3><%= link_to "Location", location_room_path, class:"text-primary text-decoration-none" %><span class="float-end text-danger"><%= "✔️" if check_location? %></span></h3><hr>
+        <%= link_to "Publish", update_is_published_room_path, method: :patch, class:"btn btn-outline-info #{"disabled" unless answer_all?} w-100" %>
+    </div>
+</div> 

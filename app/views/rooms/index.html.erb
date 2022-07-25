@@ -1,0 +1,30 @@
+<%= provide(:title, "Room Index")%>
+<div class="row mt-5">
+    <%= render "yourlist" %>
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Your Listing</h3>
+            </div>
+            <% @rooms.each do |room|%>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <% if room.photos.any? %>
+                                <%= image_tag room.photos.first, style:"width: 150px; height: 80px;" %>
+                            <% else %>  
+                                <%= image_tag "no_image.png", style:"width: 150px; height: 80px;"%>
+                            <% end %>
+                        </div>
+                        <div class="col-4">
+                            <p><%= room.listing_name %></p>
+                        </div>
+                        <div class="col-4 my-auto">
+                            <%= link_to "Update", listing_room_path(room), class:"btn btn-outline-info w-100" %>
+                        </div>
+                    </div>
+                </div>    
+            <% end %>    
+        </div>
+    </div>
+</div>

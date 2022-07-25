@@ -1,0 +1,21 @@
+<%= provide(:title, "Edit Review")%>
+<div class="card mt-5 text-center mx-auto w-50">
+    <div class="card-header">
+        <h5>Edit Review</h5>
+    </div>
+    <div class="card-body">
+        <%= form_with(model: [@reservation, @review], local: true) do |f| %>
+            <div id="star-<%= @reservation.id %>"></div>
+            <%#= f.number_field :star, min: 1, max: 5 %>
+            <%= f.text_area :comment, class:"form-control mt-3", placeholder:"Leave a comment here" %>
+            <%= f.submit "Save Review", class:"btn btn-primary mt-3" %>
+        <% end %>
+    </div>
+</div>
+<script>
+    $('#star-<%= @reservation.id %>').raty({
+        path: "/assets/",
+        score: <%= @review.star %>,
+        scoreName: "review[star]"
+    });
+</script>

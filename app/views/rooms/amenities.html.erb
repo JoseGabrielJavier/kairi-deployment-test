@@ -1,0 +1,57 @@
+<%= provide(:title, "Edit Amenities")%>
+<div class="row">
+    <div class="col-3">
+        <%= render "lists" %>
+    </div>
+    <div class="col-9">
+        <div class="card w-100" style="width: 18rem;">
+            <div class="card-header text-center">
+            <h3>Amenities</h3>
+        </div>
+        <div class="card-body">
+            <%= form_with(model: @room, local: true)  do |f| %>
+                <div class="row">
+                    <div class="col-4">
+                        <div>
+                            <%= f.check_box :is_tv, class:"form-check-input" %>
+                            <label class="form-check-label mb-5">
+                                TV
+                            </label>
+                        </div>
+                        <div>
+                            <%= f.check_box :is_heating, class:"form-check-input" %>
+                            <label class="form-check-label mb-5">
+                                Heating
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            <%= f.check_box :is_kitchen, class:"form-check-input" %>
+                            <label class="form-check-label mb-5">
+                                Kitchen
+                            </label>
+                        </div>
+                        <div>
+                            <%= f.check_box :is_ac, class:"form-check-input" %>
+                            <label class="form-check-label mb-5">
+                                Air conditioning
+                            </label>
+                        </div>    
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            <%= f.check_box :is_internet, class:"form-check-input" %>
+                            <label class="form-check-label mb-5">
+                                Internet
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <%= f.submit "Save", class:"btn btn-outline-warning m-2" %>
+                </div>
+            <% end %>  
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+# <div class="modal fade" id="reviewmodal-<%= your_reservation.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+#     <div class="modal-dialog">
+#         <div class="modal-content">
+#             <div class="modal-header">
+#                 <h5 class="modal-title" id="exampleModalLabel">Review <%= your_reservation.id %></h5>
+#                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+#             </div>
+#             <div class="modal-body">
+#                 <% @review = your_reservation.reviews.new %>
+#                 <%= form_with(model: @review, url: reviews_path(your_reservation), local: true) do |f| %>
+#                     <div id="star-<%= your_reservation.id %>"></div>
+#                     <%= f.number_field :star, min: 1, max: 5 %>
+#                     <%= f.text_area :comment, class:"form-control mt-3", placeholder:"Leave a comment here" %>
+                    
+#                     <%= f.hidden_field :review_type, value: "host_to_guest" %>
+#                     <%= f.hidden_field :reservation_id, value: your_reservation.id %>
+#                     <%= f.submit "Save Review", class:"btn btn-primary mt-3" %>
+#                 <% end %>
+#             </div>
+#         </div>
+#     </div>
+# </div>

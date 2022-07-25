@@ -1,0 +1,46 @@
+<%= provide(:title, "Your Reservations")%>
+<div class="row mt-5">
+    <%= render "rooms/yourlist" %>
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Your Reservations</h3>
+            </div>
+            <div class="text-body">
+                <% @user.your_reservations.each do |your_reservation| %>
+                    <div class="row mt-3 mb-3 text-center">
+                        <div class="col-3 my-auto">
+                            <p><%= your_reservation.checkin_day %> to <%= your_reservation.checkout_day %></p>
+                        </div>
+                        <div class="col-3">
+                            <%= image_tag your_reservation.room.photos.first, style:"width: 150px; height: 80px;" %>
+                        </div>
+                        <div class="col-3">
+                            <p><%= link_to your_reservation.room.listing_name, room_path(your_reservation.room.id) %></p>
+                            <span><%= gravatar_for(your_reservation.room.user, size: 30) %></span>
+                            <span><%= link_to your_reservation.user.name, user_path(your_reservation.user) %></span>
+                        </div>
+                        <div class="col-3 my-auto">
+                            <% if your_reservation.host_to_guest %>
+                                <%= link_to "Edit Review", edit_reservation_review_path(reservation_id: your_reservation, id: your_reservation.host_to_guest), class:"btn btn-warning" %>
+                            <% else %>
+                                <%= link_to "Review Guest", new_reservation_review_path(reservation_id: your_reservation, review_type: "host_to_guest"), class:"btn btn-primary" %>
+                            <% end %>    
+                        </div>
+
+
+                        <!-- Button trigger modal 
+                         <div class="col-3 my-auto">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewmodal-<%= your_reservation.id %>">
+                                Review Guest
+                            </button>
+                        </div>-->
+
+                        <!-- Modal -->
+                        <%#= render "modal_form", your_reservation: your_reservation %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
